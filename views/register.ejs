@@ -333,7 +333,8 @@ form{
 
 <div>
 <label for="mobile">Mobile-No</label>
-<input type="tel" name="mobile" required/>
+<input type="tel" pattern="^[789][0-9]{9}" name="mobile" oninvalid="this.setCustomValidity('Please Enter mobile number in proper format!!')"
+ oninput="setCustomValidity('')" required/>
 </div>
 </div>
 
@@ -353,7 +354,8 @@ form{
 <label for="district">District</label>
 <input type="text" name="district" required/>
 <label for="pincode">Pincode</label>
-<input type="number" name="pincode" required/>
+<input type="text" name="pincode" pattern="[0-9]{6}" oninvalid="this.setCustomValidity('Pincode should be of 6 digits!!')"
+ oninput="setCustomValidity('')" required/>
 </div>
 
 <div class="four">

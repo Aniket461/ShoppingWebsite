@@ -213,6 +213,10 @@ app.post('/register', checkNotAuthenticated, (req,res)=>{
   }
   else{
 
+        console.log(mobile);
+        console.log(mobile.replace(/\D/g,'').length == 10);
+
+
 
         if(password != password2){
           req.flash('info', 'Passwords Do not match!!');
