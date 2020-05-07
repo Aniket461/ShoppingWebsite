@@ -20,33 +20,149 @@
     <!-- <script src="index.js"></script> -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+<style>
+
+
+body{
+width: 100%;
+height: 100vh;
+    background: #36D1DC;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+display:flex;
+justify-content:center;
+align-items: center;
+}
+
+.in{
+  
+  width: 50%;
+  height: 40px;
+  border: 2px solid black;
+
+}
+
+
+.log{
+    
+    width: 40%;
+    background-color: white;
+    height: 400px;
+    top:50%;
+    border-radius: 20px;
+    box-shadow: 10px 10px 5px 5px rgba(108, 110, 112,0.2) ;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.sub{
+    background-color: #1bcc4a;
+    border: 1px solid green;
+    width: 120px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    color:white;
+    margin-top:10px;
+    margin-bottom: 30px;
+    
+}
+
+.sub i{
+    font-size: 25px;
+    /* margin-left: -15px; */
+    margin-right: 5px;
+}
+
+.form{
+    margin-bottom: 30px;
+}
+
+.err{
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 20px;
+}
+
+
+@media screen and (max-width: 800px){
+.log{
+    width: 90%;
+    background-color: white;
+    height: 400px;
+    top:50%;
+    border-radius: 20px;
+    box-shadow: 10px 10px 5px 5px rgba(108, 110, 112,0.2) ;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.log h1{
+    font-size: 22px;
+}
+
+}
+
+
+
+</style>
+
+
 </head>
 
 
 
 
 <body>
-<h1>LOGIN</h1>
 
+
+<div class="log">
+
+<h1>Login To Your Account</h1>
+
+<div class="err" style="height:70px;">
 <% if(messages.error) { %>
-
-<%= messages.error %> 
-
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong><%= messages.error %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <% } %>
 
+
+</div>
+
 <form action="/login" method="POST">
-<label for="email">Email</label>
-<input type="email" name="email" required/>
+<div>
+<label for="email" style="margin-right:8px;"><h5>Email-Id</h5></label>
+<input class="in" type="email" name="email" required/>
+</div>
 
-<label for="password">Password</label>
-<input type="password" name="password" required/>
+<div>
+<label for="password"><h5>Password</h5></label>
+<input class="in" type="password" name="password" required/>
+</div>
 
-
-<input type="submit" value="SUBMIT"/>
+<button type="submit" class="sub" id="myb" ><i class="fa fa-check" aria-hidden="true"></i>LOGIN</button>
 
 </form>
 
-<a href="/register">Register here</a>
+<p style="margin-bottom: 0px;">Not registered yet??<a href="/register">Register here</a></p>
+
+
+</div>
+
+
+
+<script>
+
+
+</script>
+
+
 
 </body>
 </html>
