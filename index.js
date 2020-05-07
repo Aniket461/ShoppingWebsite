@@ -113,7 +113,7 @@ data : ''
 }
 else{
 res.render('index',{
-data : req.user.name
+data : req.user.firstname
 });
 }
 
@@ -132,7 +132,7 @@ failureFlash: true
 }), (req,res)=>{
 
 res.render('index',{
-  data: req.user.name
+  data: req.user.firstname
 });
 
 }
@@ -190,9 +190,17 @@ res.render('register');
 app.post('/register', checkNotAuthenticated, (req,res)=>{
 
 
- var name = req.body.name;
+ var firstname = req.body.firstname;
+ var lastname = req.body.lastname;
  var email = req.body.email;
+ var mobile= req.body.mobile;
+ var address1 = req.body.address1;
+ var address2 = req.body.address2;
+ var state = req.body.state;
+ var district = req.body.district;
+ var pincode = req.body.pincode;
  var password = req.body.password;
+ var password2 = req.body.password2;
 
 
  User.findOne({'email':email},(err,user)=>{
@@ -205,6 +213,14 @@ app.post('/register', checkNotAuthenticated, (req,res)=>{
   }
   else{
 
+
+        if(password != password2){
+          req.flash('info', 'Passwords Do not match!!');
+    res.redirect('/register');
+
+        }
+        else{
+
      crypto.pbkdf2(password,"64",1000,256,'sha256',(error,hash)=>{
 
   if(error)
@@ -216,8 +232,15 @@ app.post('/register', checkNotAuthenticated, (req,res)=>{
 
 var user = new User({
 
-  name: name,
+  firstname: firstname,
+  lastname: lastname,
   email: email,
+  mobile: mobile,
+  address1: address1,
+  address2: address2,
+  state: state,
+  district: district,
+  pincode: pincode,
   password: password
 
 });
@@ -235,11 +258,8 @@ else{
 
 
 });
-
-
-
 }
- });
+ }});
 });
 
 //start the server

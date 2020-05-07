@@ -51,11 +51,13 @@ label{
     background-color: white;
     text-align: center;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .err{
-    width: 100%;
-    height: 70px;
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 20px;
 }
 
 form{
@@ -286,7 +288,29 @@ form{
 
 <h1>Create An Account</h1>
 
-<div class="err"></div>
+<div class="err" style="height:70px;">
+<% if(messages.error || messages.info) { %>
+
+<% if(messages.error) {%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong><%= messages.error %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+<% if(messages.info) {%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong><%= messages.info %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+
+
+<% } %>
+</div>
 
 <h2><%= messages.info %></h2>
 
@@ -294,56 +318,56 @@ form{
 
 <div class="one">
 <div>
-<label for="name">FirstName</label>
-<input type="text" name="name" required/>
+<label for="firstname">FirstName</label>
+<input type="text" name="firstname" required/>
 </div>
 
 <div>
-<label for="name">LastName</label>
-<input type="text" name="name" required/>
+<label for="lastname">LastName</label>
+<input type="text" name="lastname" required/>
 </div>
 </div>
 
 <div class="one">
 <div>
-<label for="name">Email-Id</label>
-<input type="text" name="name" required/>
+<label for="email">Email-Id</label>
+<input type="email" name="email" required/>
 </div>
 
 <div>
-<label for="name">Mobile-No</label>
-<input type="text" name="name" required/>
+<label for="mobile">Mobile-No</label>
+<input type="tel" name="mobile" required/>
 </div>
 </div>
 
 <div class="two">
-<label for="name">Address Line1</label>
-<input type="text" name="name" required/>
+<label for="address">Address Line1</label>
+<input type="text" name="address1" required/>
 </div>
 
 <div class="two">
-<label for="name">Address Line2</label>
-<input type="text" name="name" required/>
+<label for="address2">Address Line2</label>
+<input type="text" name="address2" required/>
 </div>
 
 <div class="three">
-<label for="name">State</label>
-<input type="text" name="name" required/>
-<label for="name">District</label>
-<input type="text" name="name" required/>
-<label for="name">Pincode</label>
-<input type="text" name="name" required/>
+<label for="state">State</label>
+<input type="text" name="state" required/>
+<label for="district">District</label>
+<input type="text" name="district" required/>
+<label for="pincode">Pincode</label>
+<input type="number" name="pincode" required/>
 </div>
 
 <div class="four">
-<label for="name">Password</label>
-<input type="text" name="name" required/>
+<label for="password">Password</label>
+<input type="password" name="password" required/>
 </div>
 
 
 <div class="four">
-<label for="name">Confirm Password</label>
-<input type="text" name="name" required/>
+<label for="password2">Confirm Password</label>
+<input type="password" name="password2" required/>
 </div>
 
 <button type="submit" class="sub" id="myb" ><i class="fa fa-check-circle-o" aria-hidden="true"></i>REGISTER</button>
