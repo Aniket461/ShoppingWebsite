@@ -1,0 +1,299 @@
+<!-- views/head.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SHOPPING WEBSITE|ANIKET</title>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>  
+    <link rel="stylesheet" href="./css/style.css">
+       <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <script src="index.js"></script> -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+<style type="text/css">
+	table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 95%;
+  margin-left: 2.5%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.mnavbar{
+    display: none;
+}
+
+h1{
+	text-align: center;
+}
+
+.displayCart{
+	display: none;
+}
+
+@media screen and (max-width: 800px){
+
+
+nav{
+    display: none;
+}
+
+.mnavbar{
+    display: block;
+}
+
+table{
+	display: none;
+}
+
+.displayCart{
+	 display: block;
+	 width: 90%;
+	 margin-left: 5%;
+	 padding-bottom: 20px;
+	 
+}
+
+.innerproduct{
+
+	width: 90%;
+	margin-left: 5%;
+	box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.1);
+	padding-bottom: 15px;
+	padding-top: 15px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+h6{
+	margin-bottom: 0px;
+}
+
+.banner{
+
+	font-size: 18px;
+}
+
+}
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+
+<section class="mnavbar">
+    
+<div id="myNav" class="overlay">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content">
+    <a href="/" onclick="closeNav()">Home</a>
+    <a href="#" onclick="closeNav()">Home</a>
+    <a href="#" onclick="closeNav()">Home</a>
+    <a href="#" onclick="closeNav()">Home</a>
+
+            <% if(user == ''){ %>
+            <a href="/login"><button class="inb">LOGIN</button></a>
+            <%} else {%>
+              <p style="color: white; margin-top: 0px;margin-bottom: -15px;font-size: 20px; font-weight: 500;">Hi,<%= user %></p><a href="/logout"><button class="inb">LOGOUT</button></a>
+              <%}%>
+            
+  </div>
+
+</div>
+
+<!-- Use any element to open/show the overlay navigation menu -->
+<span onclick="openNav()" style="cursor: pointer;"><i id="ham" class="ham fa fa-bars" aria-hidden="true" style="font-size: 40px; margin: 15px; margin-top: 10px; color: rgba(0,0,0, 0.9); position: fixed;"></i></span>
+</section>
+
+
+
+    <nav>
+        <div class="logo"><h4>LOGO</h4></div>
+        <ul style="margin-bottom: 0px;">
+            <a href="/" style="text-decoration: none;"><li>Home</li></a>
+            <a href="" style="text-decoration: none;"><li>Home</li></a>
+            <a href="" style="text-decoration: none;"><li>Home</li></a>
+            <a href="" style="text-decoration: none;"><li>Home</li></a>
+            <a href="" style="text-decoration: none;"><li>Home</li></a>
+        </ul>
+        <div class="login">
+           <% if(user == ''){ %>
+            <a href="/login"><button>LOGIN</button></a>
+            <%} else {%>
+              <p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 10px;">Hi,<%= user %></p><a href="/logout"><button>LOGOUT</button></a>
+              <%}%>
+            
+            <a href="/cart" class="cart"><h5><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout"><h6 class="count" style="margin-bottom: 3px;"><%= all.length %></h6></div></a>
+        </div>
+    </nav>
+    
+
+
+	<button type="button" class="btn btn-secondary btn-sm" style="width: 60%;
+    height: 50px;
+    margin-left: 20%;
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: 600;">Your Cart<i style="margin-left: 5px;
+    font-size: 30px;" class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+
+
+
+	<div class="err" style="width: 70%;margin-left: 15%; margin-top: 30px; text-align: center;">
+<% if(messages.error || messages.info) { %>
+
+<% if(messages.error) {%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong><%= messages.error %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+<% if(messages.info) {%>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= messages.info %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+
+
+<% } %>
+</div>
+
+<% if(all == '') { %>
+<h1 class="banner">Add some exciting products !!</h1>
+<%} else{ %>
+
+	<h1></h1>
+
+
+<table>
+  <tr>
+    <th>Product Id</th>
+    <th>Quantity</th>
+    <th><i class="fa fa-inr"  aria-hidden="true"></i>Price</th>
+    <th></th>
+    <th>Sub Total</th>
+  </tr>
+
+  <%var totalAmount = 0.0 %>
+<% for (var i =0; i < all.length;  i++ ) { %>
+
+<tr>
+	<td><%= all[i].id %></td>
+	<td><%= all[i].qty %></td>
+	<td><%= all[i].price %></td>
+	<td style="text-align: center;">
+			<a href="/cart/update/<%= all[i].id %>?action=add">+</a>&nbsp;
+			<a href="/cart/update/<%= all[i].id %>?action=remove">-</a>&nbsp;
+			<a href="/cart/update/<%= all[i].id %>?action=clear">Clear</a>&nbsp;
+
+		</td>
+
+	<td><i class="fa fa-inr"  aria-hidden="true" style="margin-right: 1px;"></i><%= parseFloat(all[i].qty * all[i].price).toFixed(2) %></td>
+
+	<% parseFloat(totalAmount = totalAmount + (all[i].qty * all[i].price)).toFixed(2) %>
+</tr>
+<% } %>
+
+
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td style="font-weight: 600; text-align: center; font-size: 20px;">Total Amount</td>
+	<td style="font-weight: 600; font-size: 20px; text-align: center;"><i class="fa fa-inr"  aria-hidden="true" style="margin-right: 1px;"></i><%= parseFloat(totalAmount).toFixed(2) %></td>
+</tr>
+
+</table>
+
+<div class="displayCart">
+	
+	  <%var totalAmount = 0.0 %>
+<% for (var i =0; i < all.length;  i++ ) { %>
+
+
+<div class="innerproduct">
+<h6>product Id:</h6>
+<p><%= all[i].id %></p>
+<h6>Quantity</h6><p><%= all[i].qty %></p>
+<div style="margin-top: -20px; margin-bottom: 10px;">
+			<a href="/cart/update/<%= all[i].id %>?action=add">+</a>&nbsp;
+			<a href="/cart/update/<%= all[i].id %>?action=remove">-</a>&nbsp;
+			<a href="/cart/update/<%= all[i].id %>?action=clear">Clear</a>&nbsp;
+</div>
+<h6>Price:</h6><p><i class="fa fa-inr"  aria-hidden="true" style="margin-right: 1px;"></i><%= all[i].price %></p>
+<h6>Sub Total:</h6><p><i class="fa fa-inr"  aria-hidden="true" style="margin-right: 1px;"></i><%= parseFloat(all[i].qty * all[i].price).toFixed(2) %></p>
+</div>
+
+
+<% parseFloat(totalAmount = totalAmount + (all[i].qty * all[i].price)).toFixed(2) %>
+
+<% } %>
+
+
+<div style="width: 90%; margin-left: 5%;padding-left: 10px; padding-top: 10px;
+padding-bottom: 10px; box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2); border-radius: 10px;">
+	<h5 style="margin-bottom: 0px;">Total Price:</h5><p style="margin-bottom: 0px;"><i class="fa fa-inr"  aria-hidden="true" style="margin-right: 1px;"></i><%= parseFloat(totalAmount).toFixed(2) %></p>
+</div>
+
+
+</div>
+
+
+
+<% } %>
+
+</body>
+
+<script>
+
+
+/* Open when someone clicks on the span element */
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+  document.getElementById("ham").style.visibility = 'hidden';
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+  document.getElementById("ham").style.visibility = 'visible';
+}
+
+</script>
+
+
+</html>

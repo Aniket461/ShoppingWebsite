@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SHOPPING WEBSITE|ANIKET</title>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>  
+    <link rel="stylesheet" href="./css/style.css">
+       <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <script src="index.js"></script> -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+
+<style type="text/css">
+	
+	form{
+
+		width: 80%;
+		margin-left: 10%;
+		padding-bottom: 30px;
+	}
+
+	form h5{
+		font-size: 20px;
+	}
+
+	form input,textarea{
+		width: 60%;
+		height: 40px;
+		border: 2px solid black;
+		border-radius: 10px;
+		font-weight: 20px;
+		font-size: 20px;
+		padding: 20px;
+	}
+
+	.pricen{
+		font-size: 25px;
+	}
+	.price{
+		width: 30%;
+	}
+
+	select{
+
+		width: 100px;
+		border: 2px solid black;
+		height: 35px;
+		cursor: pointer;
+
+	}
+
+div{
+	margin-top: 25px;
+	margin-bottom: 10px;
+}
+
+button{
+	text-align: center;
+	width: 130px;
+	height: 45px;
+	border: 2px solid black;
+	position: absolute;
+	display: block;margin: auto;
+	background-color: white;
+	color: black;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	border-radius: 5px;
+}
+button i{
+	font-size: 40px;
+	margin-right: 6px;
+
+}
+
+button:hover{
+
+	color: white;
+	background-color: black;
+}
+
+.pic{
+
+	width: 180px;
+	height: 40px;
+	padding: 0px;
+	font-size: 12px;
+	display: flex;
+	justify-content: center;
+	padding: 5px;
+	margin-top: 10px;
+}
+
+</style>
+
+</head>
+<body>
+<h1 style="text-align: center;">Add product</h1>
+
+
+<div class="err" style="width: 60%; margin-left: 20%; text-align: center;" >
+<% if(messages.error || messages.info) { %>
+
+<% if(messages.info) {%>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= messages.info %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+
+
+<% } %>
+</div>
+
+<form action="/add-product" method="POST" enctype="multipart/form-data">
+
+<div>
+<h5>Title</h5>
+<input type="text" name="title">
+</div>
+
+<div>
+<h5>Description</h5>
+<textarea name="description" rows="8" wrap="soft" style="height: 120px;"> </textarea>
+</div>
+
+<div>
+<h5>Category</h5>
+<select name="category">
+	<% category.forEach(function(cat){ %>
+	<option name="category"><%= cat.category %></option>
+	<% }); %>
+</select>
+</div>
+
+<div>
+	
+<h5 >Pictures</h5>
+	<input class="pic" type="file" name="pic">
+	<input class="pic" type="file" name="pic">
+	<input class="pic" type="file" name="pic">
+	<input class="pic" type="file" name="pic">
+
+</div>
+
+<div>
+<h5 >Price</h5>
+<h6 style="float: left;margin-top: 5px;" class="pricen">$</h6><input class="price" type="number" name="price">
+</div>
+<div style="width: 100%; display: flex;justify-content: center; height: 50px;">
+<button><i class="fa fa-check-square" aria-hidden="true" style="font-size: 25px;"></i>SUBMIT</button>
+</div>
+</form>
+
+
+</body>
+</html>

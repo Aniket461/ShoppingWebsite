@@ -27,6 +27,10 @@
     display: none;
 }
 
+table{
+	border-collapse: separate;
+  border-spacing: 45px 0; display: flex;justify-content: center;
+}
 
 @media screen and (max-width: 800px){
 
@@ -39,9 +43,38 @@ nav{
     display: block;
 }
 
+table{
+	  border-spacing: 0px 0;
+	  padding-left: 10px;
+	  padding-right: 10px;
 }
 
+}
 
+input{
+	width: 100%;
+	border:2px solid #9ea0a3;
+	height: 35px;font-size: 15px;
+    font-weight: 500;
+}
+
+button{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    width: 110px;
+    height: 35px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: white;
+}
+
+button:hover{
+
+	background-color: black;
+	color: white;
+}
 
 </style>
 
@@ -96,64 +129,82 @@ nav{
            <% if(user == ''){ %>
             <a href="/login"><button>LOGIN</button></a>
             <%} else {%>
-              <a href="/userprofile" style="text-decoration: none;width: 120px;"><p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 15px;">Hi,<%= user %></p></a><a href="/logout"><button>LOGOUT</button></a>
+              <a href="/userprofile" style="text-decoration: none;width: 95px;"><p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 15px;">Hi,<%= user %></p></a><a href="/logout"><button>LOGOUT</button></a>
               <%}%>
             
-            <a href="/cart" class="cart"><h5><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout"><h6 class="count" style="margin-bottom: 3px;"><%= cartcount %></h6></div></a>
+            
         </div>
     </nav>
-    
 
 
-    <h1 class="h">Index Page</h1>
 
-<h2><%= messages.info %></h2>
-<div class="err" style="height:70px;">
-<% if(data != ''){%>
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong><%= data %> </strong>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div class="userprofile" style="padding-top: 50px;">
+<h2 style="text-align: center; font-size: 22px; color:#545557;margin-bottom: 20px;">Hi,<%=user %>.. You can update your profile here!</h2>
+	
+
+
+	<div class="userimage"></div>
+
+	<div class="info">
+		
+		<form action="/userprofile" method="POST">
+		<table class="table table-borderless" style="">
+			<tr>
+			<th style="padding-bottom: 0px;">First Name</th>
+			<th style="padding-bottom: 0px;">Last Name</th>
+		</tr>
+		<tr>
+			<th style="padding-top: 0px;"><input type="text" name="firstname" value="<%= complete.firstname%>" required></th>
+			<th style="padding-top: 0px;"><input type="text" name="lastname" value="<%= complete.lastname%>" required></th>
+		</tr>
+		<tr>
+			<th style="padding-bottom: 0px;">Email</th>
+			<th style="padding-bottom: 0px;">Phone no</th>
+		</tr>
+		<tr>
+			<th style="padding-top: 0px;"><input type="email" name="email" value="<%= complete.email%>" required></th>
+			<th style="padding-top: 0px;"><input type="tel" pattern="^[789][0-9]{9}" name="mobile" required value="<%= complete.mobile%>" oninvalid="this.setCustomValidity('Please Enter mobile number in proper format!!')"
+ oninput="setCustomValidity('')" required/></th>
+		</tr>
+
+		<tr>
+			<th style="padding-bottom: 0px;">Address Line1</th>
+			<th style="padding-bottom: 0px;">Address Line2</th>
+		</tr>
+		<tr>
+			<th style="padding-top: 0px;"><input type="text" name="address1" value="<%= complete.address1%>" required></th>
+			<th style="padding-top: 0px;"><input type="text" name="address2" value="<%= complete.address2%>" required></th>
+		</tr>
+
+		<tr>
+			<th style="padding-bottom: 0px;">District</th>
+			<th style="padding-bottom: 0px;">State</th>
+			
+		</tr>
+		<tr>
+			<th style="padding-top: 0px;"><input type="text" name="district" value="<%= complete.district%>" required></th>
+			<th style="padding-top: 0px;"><input type="text" name="state" value="<%= complete.state%>" required></th>
+			
+
+		</tr>
+		<tr><th style="padding-bottom: 0px;">Pincode</th></tr>
+		<tr><th style="padding-top: 0px;"><input type="text" value="<%= complete.pincode%>" name="pincode" pattern="[0-9]{6}" oninvalid="this.setCustomValidity('Pincode should be of 6 digits!!')"
+ oninput="setCustomValidity('')" required/></th></tr>
+
+		</table>
+
+
+<button style="display: flex;
+    justify-content: center;" type="submit" class="sub" id="myb" ><i style="font-size: 25px; margin-top: 0px;
+    margin-right: 3px;" class="fa fa-check-circle-o" aria-hidden="true"></i>Update</button>
+
+		</form>
+	</div>
+
 </div>
-<% } %>
-</div>
 
-<div class="products">
 
-<div class="category">
-  <h4 style="text-align: center;margin-top: 10px;">Categories</h4>
-  <ul class="u">
-    <% category.forEach(function(cat){ %>
-    <li style="height: 30px;"><%= cat.category%></li>
-    <% });%>
-  </ul>
-  
 
-</div>
-
-  <div class="outer">
-  <% products.forEach(function(product){ %>
-  <div class="prod">
-    <img src="./uploads/<%= product.image1 %>" alt="image1" width="270px" height="270px">
-
-    <h3><%= product.title %></h3>
-    <div class="inner">
-    <label style="float: left;">Category:</label><h5><%= product.category %></h5>
-    </div>
-    <div class="inner">
-    <label style="float: left;">Price:</label><h5 style=""><i class="fa fa-inr"  aria-hidden="true"></i><%= product.price %></h5></div>
-    <% if(user == ''){ %>
-    <a href=""><button disabled><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to Cart</button></a>
-    <p style="font-size: 10px;">login to add product to cart</p>
-    <% }else{ %>
-    <a href="/add-cart/<%= product._id %>"><button ><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to Cart</button></a>
-    <% } %>
-    </div>
-<% });%>
-</div>
-   
-</div>
 
 </body>
 

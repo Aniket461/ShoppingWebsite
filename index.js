@@ -8,9 +8,11 @@ var User = require('./models/users');
 var flash = require('express-flash');
 const crypto = require("crypto");
 const passport = require('passport');
-
+var Product = require('./models/product');
+var Category = require('./models/category');
+var multer = require('multer');
+//initializing passport 
 const initializePassport = require('./passport-config');
-
 initializePassport(passport);
 /*
 MongoClient.connect(MONGO_URL, (err, db) => {  
@@ -67,7 +69,16 @@ app.use(passport.session());
 
 app.use(flash());
 
+var Storage = multer.diskStorage({
+  destination: './public/uploads/',
+  filename :(req,file,cb)=>{
+    cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname));
+  }
+});
 
+var upload = multer({
+  storage: Storage
+}).array('pic',4);
 
 const checkAuthenticated = (req, res,next)=>{
 
@@ -86,9 +97,7 @@ const checkNotAuthenticated = (req, res,next)=>{
 if(req.isAuthenticated()){
 
   console.log('in if not')
-  res.render('index',{
-    data: req.user.name
-  });
+  res.redirect('/');
 }
 else{
   console.log('in else not')
@@ -101,22 +110,65 @@ const test = [1,2,3,4,5];
 
 app.get('/',(req,res)=>{
 
-console.log(req.user);
+
+var products = '';
+
+  Product.find({},(err,products)=>{
+
+    var cat = [];
+
+Category.find({},(err,category)=>{
+
+cat = category
+console.log(cat);
+
 
 if(req.user == undefined){
-
-
 res.render('index',{
-data : ''
+data : '',
+user : '',
+category: category,
+products: products,
+cartcount: 0
 });
+}
 
+else{
+
+if(req.session.cart == undefined){
+res.render('index',{
+data : req.user.firstname,
+user : req.user.firstname,
+products: products,
+category: category,
+cartcount: 0
+});
 }
 else{
-res.render('index',{
-data : req.user.firstname
+  res.render('index',{
+data : req.user.firstname,
+user : req.user.firstname,
+products: products,
+category: category,
+cartcount: req.session.cart.length
 });
 }
 
+
+}
+
+
+
+  });
+
+
+
+  });
+
+/*console.log(products);
+
+console.log(req.user);
+*/
 
 });
 
@@ -131,12 +183,8 @@ failureFlash: true
 
 }), (req,res)=>{
 
-res.render('index',{
-  data: req.user.firstname
-});
-
+res.redirect('/');
 }
-
 /*var email = req.body.email;
 var password = req.body.password;
 */
@@ -181,9 +229,142 @@ res.redirect('/login');
 
 );
 
+app.get('/add-cart/:id',(req,res)=>{
+
+var newItem = true;
+
+var id = req.params.id;
+console.log(id);
+Product.findOne({_id:id},(err,product)=>{
+//console.log(product);
+console.log(req.session.cart + "cart");
+if( req.session.cart == undefined){
+   req.session.cart = [];
+
+  req.session.cart.push({
+
+    id: product._id,
+    qty:1,
+    price: parseFloat(product.price).toFixed(2),
+    image: product.image1
+  });
+
+  console.log(req.session.cart);
+
+}
+else{
+
+  var cart = req.session.cart;
+
+for(var i= 0; i<cart.length;i++){
+  if(cart[i].id == product._id){
+
+    cart[i].qty++;
+    newItem = false;
+    break;
+
+  }
+}
+
+if(newItem){
+
+  cart.push({
+
+    id: product._id,
+    qty:1,
+    price: parseFloat(product.price).toFixed(2),
+    image: product.image1
+  }); 
+}
+  
+}
+  
+console.log(req.session.cart);
+req.flash('info','Product added success successfully!!');
+  res.redirect('/cart');
+
+
+});
+
+console.log(req.session.cart);
+
+});
+
 app.get('/register', checkNotAuthenticated,(req,res)=>{
 
 res.render('register');
+});
+
+
+app.post('/add-product',upload,(req,res)=>{
+
+
+console.log(req.files[0]);
+
+
+var product = new Product({
+
+title: req.body.title,
+description: req.body.description,
+category: req.body.category,
+image1: req.files[0].filename,
+image2: req.files[1].filename,
+image3: req.files[2].filename,
+image4: req.files[3].filename,
+price: req.body.price,
+});
+
+product.save((err)=>{
+  if(err) console.log(err);
+  else{
+    req.flash('info','Product added successfully');
+    res.redirect('/add-product');
+  }
+})
+
+});
+
+
+app.get('/cart/update/:id',(req,res)=>{
+
+
+var id = req.params.id;
+
+   var cart = req.session.cart;
+   var action = req.query.action;
+   console.log("cart is here "+ cart);
+   var action = req.query.action;
+   console.log(action)
+
+   for( var i=0; i<cart.length ; i++){
+    if(cart[i].id == id) {
+
+      switch(action){
+
+        case "add":
+          cart[i].qty++;
+          break;
+        case "remove":
+          cart[i].qty--;
+          if(cart[i].qty <1) cart.splice(i, 1); 
+          if(cart.length == 0) delete req.session.cart;
+          break;
+        case "clear":
+          cart.splice(i, 1);
+          if(cart.length == 0) delete req.session.cart;
+          break;
+        default:
+          console.log('update problem');
+          break;
+
+      }
+      break;
+    }
+   }
+   req.flash('info', 'Cart Updated!');
+  res.redirect('/cart');
+
+
 });
 
 
@@ -259,12 +440,200 @@ else{
 }
 
 });
-
-
 });
 }
  }});
 });
+
+
+app.get('/dashboard',checkAuthenticated, (req,res)=>{
+
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+console.log("in checkadmin");
+res.render('dashboard',{
+
+data: 'Welcome to dashboard',
+user: req.user.firstname
+
+
+})
+}
+else{
+  req.flash('info','You should have admin access');
+  res.redirect('/');
+}
+
+});
+
+
+app.get('/add-product', checkAuthenticated, (req,res)=>{
+
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+
+    Category.find({},(err,cat)=>{
+
+      res.render('addproduct',{
+        category: cat
+      });
+
+    });
+
+  
+}
+else{
+  res.redirect('/');
+}
+
+
+});
+
+
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+
+
+
+
+app.get('/cart',checkAuthenticated,(req,res)=>{
+
+if(req.session.cart == undefined){
+  req.flash('info', 'Your cart is empty');
+  res.render('cart',{
+    all: '',
+    user: req.user.firstname
+  })
+}
+else{
+  console.log(req.session.cart[0]);
+res.render('cart',{
+  all: req.session.cart,
+  user: req.user.firstname
+});
+}
+});
+
+
+app.get('/add-category',checkAuthenticated,(req,res)=>{
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+  res.render('addcategory');
+}
+else{
+
+  res.redirect('/');
+}
+
+})
+
+app.post('/add-category',(req,res)=>{
+
+var category = req.body.category;
+
+Category.findOne({category: category},(err,cat)=>{
+  if(cat){
+    req.flash('info','Category Already Exists!!');
+    res.redirect('/add-category');
+  }
+
+  else{
+    var categ = new Category({
+
+        category: category
+
+    })
+    categ.save((err)=>{
+      if(err){
+        req.flash('info','Failed to add category!!');
+        res.redirect('/add-category');
+      }
+      else{
+
+        req.flash('info','Category Added!!');
+        res.redirect('/add-category');
+      }
+    })
+
+}
+});
+
+});
+
+app.get('/userprofile',checkAuthenticated,(req,res)=>{
+
+console.log(req.user)
+User.findOne({email:req.user.email},(err,us)=>{
+
+  console.log(us);
+
+res.render('userprofile',{
+  user: req.user.firstname,
+  complete: us
+});
+
+
+})
+
+});
+
+app.post('/userprofile',checkAuthenticated,(req,res)=>{
+
+
+var ObjectId = require('mongodb').ObjectId;
+id = new ObjectId(req.user._id);
+
+
+console.log(req.user +"hereeee");
+console.log(req.body);
+
+
+User.findOne({_id:id},(err,user)=>{
+  console.log(user);
+})
+
+
+User.updateOne(
+  {_id: req.user._id},
+  {
+  $set:
+  {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    mobile: req.body.mobile,
+    address1: req.body.address1,
+    address2: req.body.address2,
+    state: req.body.state,
+    district: req.body.district,
+    pincode: req.body.pincode
+  }
+}
+).exec();
+
+
+req.logout();
+req.flash('info','Profile Updated Successfully, Please Login!')
+res.redirect('/login');
+
+})
+
 
 //start the server
 app.listen(process.env.PORT || 3000,()=>{
