@@ -237,10 +237,51 @@ margin-right: 10px;
 	color: white;
 }
 
+.mobilecart{
+	display: none;
+}
 
 
 
 @media screen and (max-width: 800px){
+
+
+.mobilecart{
+	display: block;
+	float: right;
+	margin-right: 10px;
+	width: 115px;
+	color: black;
+	margin-top: 20px;
+}
+
+.prod img{
+	width: 230px;
+	height: 230px;
+}
+
+.products{
+	width: 100%;
+	padding-left: 0px;
+}
+
+.category{
+	display: none;
+}
+.outer{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.prod{
+	width: 80%;
+    margin-left: 10%;
+    margin-right: 5%;
+    float: left;
+    height: 430px;
+}
+
+
 
 .inb{
 	width: 100px;

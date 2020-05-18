@@ -103,24 +103,23 @@ nav{
         </div>
     </nav>
     
-
-
-    <h1 class="h">Index Page</h1>
-
-<h2><%= messages.info %></h2>
-<div class="err" style="height:70px;">
-<% if(data != ''){%>
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong><%= data %> </strong>
+<!-- <div class="err" style="">
+<% if(messages.info != ''){%>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= messages.info %> </strong>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <% } %>
 </div>
+ -->
 
-<div class="products">
+ <div class="mobilecart">
+  <a href="/cart" class="cart" style="color: black;"><h5 style="float: left;font-size: 25px;"><i style="font-size: 35px;" class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout" style="width: 22px;height: 22px; border: 2px solid black;border-radius: 50%; text-align: center; font-weight: 600;"><%= cartcount %></div></a>
+</div>
 
+<div class="products" style="padding-top: 75px;">
 <div class="category">
   <h4 style="text-align: center;margin-top: 10px;">Categories</h4>
   <ul class="u">
@@ -128,9 +127,18 @@ nav{
     <li style="height: 30px;"><%= cat.category%></li>
     <% });%>
   </ul>
-  
-
 </div>
+
+
+<select name="category" style="margin-left: 20px;
+    margin-bottom: 20px;
+    border: 2px solid;">
+  <% category.forEach(function(cat){ %>
+  <option name="category"><%= cat.category %></option>
+  <% }); %>
+</select>  
+
+
 
   <div class="outer">
   <% products.forEach(function(product){ %>
