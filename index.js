@@ -632,6 +632,52 @@ req.logout();
 req.flash('info','Profile Updated Successfully, Please Login!')
 res.redirect('/login');
 
+});
+
+
+
+
+
+app.get('/:id',(req,res)=>{
+
+var id = req.params.id;
+
+Product.findOne({_id:id},(err,product)=>{
+
+if(req.user == undefined){
+ 
+res.render('oneproduct',{
+
+    product: product,
+    user: '',
+    cartcount: 0
+});
+}
+
+else{
+
+  if(req.session.cart == undefined){
+
+res.render('oneproduct',{
+
+    product: product,
+    user: req.user.firstname,
+    cartcount:0
+});    
+  }
+  else{
+    res.render('oneproduct',{
+
+    product: product,
+    user: req.user.firstname,
+    cartcount: req.session.cart.length
+});
+  }
+ 
+}
+
+});
+
 })
 
 

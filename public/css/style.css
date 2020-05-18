@@ -241,10 +241,17 @@ margin-right: 10px;
 	display: none;
 }
 
+.sel{
+	display: none;
+}
+
 
 
 @media screen and (max-width: 800px){
 
+.sel{
+	display: block;
+}
 
 .mobilecart{
 	display: block;
@@ -252,7 +259,7 @@ margin-right: 10px;
 	margin-right: 10px;
 	width: 115px;
 	color: black;
-	margin-top: 20px;
+	margin-top: 13px;
 }
 
 .prod img{
