@@ -15,6 +15,13 @@ var stripe = require('stripe')('sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV');
 
 var Publishable_Key = 'pk_test_dOywRx87N1PqLzxxKaCu4oUs00Oxna3fBq';
 var Secret_Key = 'sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV';
+
+
+
+var cors = require('cors');    
+ 
+
+
 //initializing passport 
 const initializePassport = require('./passport-config');
 initializePassport(passport);
@@ -47,6 +54,12 @@ var app = express();
 app.set("views", path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //Set public folder
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -72,6 +85,22 @@ app.use(passport.session());
 
 
 app.use(flash());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  if ("OPTIONS" == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
+
 
 var Storage = multer.diskStorage({
   destination: './public/uploads/',

@@ -7,12 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SHOPPING WEBSITE|ANIKET</title>
+    <script src="https://js.stripe.com/v3/"></script>
     <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>  
     <link rel="stylesheet" href="./css/style.css">
        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+
+       <script type="text/javascript"
+          src="https://checkout.stripe.com/checkout.js"></script>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
@@ -96,6 +100,15 @@ h6{
 
 }
 
+.formpay button span{
+  width: 130px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    font-size: 16px;
+}
 
 
 
@@ -272,18 +285,21 @@ padding-bottom: 10px; box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2); border-radius
 
 </div>
 
-<form action="/payment" method="POST"> 
+
+
+<form action="/payment" method="POST" class="formpay" style="display: flex;
+    justify-content: center;
+    margin-top: 50px;"> 
        <script type="text/javascript"
-          src="https://checkout.stripe.com/checkout.js"
+          src="https://checkout.stripe.com/v2/checkout.js" 
           class="stripe-button"
           data-key="pk_test_dOywRx87N1PqLzxxKaCu4oUs00Oxna3fBq"
-          data-amount="<%= totalAmount *100  %>" 
+          data-amount="<%= totalAmount * 100%>" 
           data-currency="inr" 
           data-name="Aniket Surve" 
           data-description="Shopping Website" 
           data-locale="auto" > 
-        </script> 
-        <input type="hidden" name="amount" value="<%= totalAmount %>">
+        </script>
         <input type="hidden" name="amount" value="<%= totalAmount %>">
     </form>
 
