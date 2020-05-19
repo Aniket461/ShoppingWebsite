@@ -272,6 +272,21 @@ padding-bottom: 10px; box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2); border-radius
 
 </div>
 
+<form action="/payment" method="POST"> 
+       <script type="text/javascript"
+          src="https://checkout.stripe.com/checkout.js"
+          class="stripe-button"
+          data-key="pk_test_dOywRx87N1PqLzxxKaCu4oUs00Oxna3fBq"
+          data-amount="<%= totalAmount *100  %>" 
+          data-currency="inr" 
+          data-name="Aniket Surve" 
+          data-description="Shopping Website" 
+          data-locale="auto" > 
+        </script> 
+        <input type="hidden" name="amount" value="<%= totalAmount %>">
+        <input type="hidden" name="amount" value="<%= totalAmount %>">
+    </form>
+
 
 
 <% } %>

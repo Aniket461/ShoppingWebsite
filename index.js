@@ -11,6 +11,10 @@ const passport = require('passport');
 var Product = require('./models/product');
 var Category = require('./models/category');
 var multer = require('multer');
+var stripe = require('stripe')('sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV');
+
+var Publishable_Key = 'pk_test_dOywRx87N1PqLzxxKaCu4oUs00Oxna3fBq';
+var Secret_Key = 'sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV';
 //initializing passport 
 const initializePassport = require('./passport-config');
 initializePassport(passport);
@@ -635,10 +639,51 @@ res.redirect('/login');
 });
 
 
+var donePayment = false;
+
+app.post('/payment',(req,res)=>{
+
+var Chargedamount = req.body.amount;
+console.log(Chargedamount);
+ var token = req.body.stripeToken;
+ var amount = req.body.amount;
+
+ var charge = stripe.charges.create({
+
+  amount: Chargedamount * 100,
+  currency: 'inr',
+  source: token
+ },(err,charge)=>{
+
+  if(err & err){
+    console.log('Your card was declined');
+  }
+
+ });
+
+console.log("Your payment was successful!!");
+donePayment = true;
+res.redirect('/paymentsuccess');
+
+});
 
 
 
-app.get('/:id',(req,res)=>{
+app.get('/paymentsuccess',checkAuthenticated,(req,res)=>{
+  
+  if(donePayment){
+    delete req.session.cart;
+  res.render('complete');
+}
+  else{
+    res.redirect('/');
+  }
+});
+
+
+
+
+app.get('/product/:id',(req,res)=>{
 
 var id = req.params.id;
 
@@ -678,7 +723,7 @@ res.render('oneproduct',{
 
 });
 
-})
+});
 
 
 //start the server
