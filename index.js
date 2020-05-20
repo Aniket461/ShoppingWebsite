@@ -10,6 +10,7 @@ const crypto = require("crypto");
 const passport = require('passport');
 var Product = require('./models/product');
 var Category = require('./models/category');
+var Order = require('./models/orders');
 var multer = require('multer');
 var stripe = require('stripe')('sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV');
 
@@ -17,9 +18,6 @@ var Publishable_Key = 'pk_test_dOywRx87N1PqLzxxKaCu4oUs00Oxna3fBq';
 var Secret_Key = 'sk_test_VVTI2gnynLi39JNPwojzITcD003I7V4uGV';
 
 
-
-var cors = require('cors');    
- 
 
 
 //initializing passport 
@@ -54,12 +52,6 @@ var app = express();
 app.set("views", path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 //Set public folder
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -86,20 +78,6 @@ app.use(passport.session());
 
 app.use(flash());
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-  );
-  if ("OPTIONS" == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-});
 
 
 var Storage = multer.diskStorage({
@@ -153,8 +131,8 @@ var products = '';
 Category.find({},(err,category)=>{
 
 cat = category
-console.log(cat);
-
+/*console.log(cat);
+*/
 
 if(req.user == undefined){
 res.render('index',{
@@ -262,66 +240,6 @@ res.redirect('/login');
 
 );
 
-app.get('/add-cart/:id',(req,res)=>{
-
-var newItem = true;
-
-var id = req.params.id;
-console.log(id);
-Product.findOne({_id:id},(err,product)=>{
-//console.log(product);
-console.log(req.session.cart + "cart");
-if( req.session.cart == undefined){
-   req.session.cart = [];
-
-  req.session.cart.push({
-
-    id: product._id,
-    qty:1,
-    price: parseFloat(product.price).toFixed(2),
-    image: product.image1
-  });
-
-  console.log(req.session.cart);
-
-}
-else{
-
-  var cart = req.session.cart;
-
-for(var i= 0; i<cart.length;i++){
-  if(cart[i].id == product._id){
-
-    cart[i].qty++;
-    newItem = false;
-    break;
-
-  }
-}
-
-if(newItem){
-
-  cart.push({
-
-    id: product._id,
-    qty:1,
-    price: parseFloat(product.price).toFixed(2),
-    image: product.image1
-  }); 
-}
-  
-}
-  
-console.log(req.session.cart);
-req.flash('info','Product added success successfully!!');
-  res.redirect('/cart');
-
-
-});
-
-console.log(req.session.cart);
-
-});
 
 app.get('/register', checkNotAuthenticated,(req,res)=>{
 
@@ -445,9 +363,9 @@ app.post('/register', checkNotAuthenticated, (req,res)=>{
     console.log(error);
   
       password = hash.toString('hex');
-      console.log(hash.toString('hex'));
+/*      console.log(hash.toString('hex'));
       console.log(password);
-
+*/
 var user = new User({
 
   firstname: firstname,
@@ -540,8 +458,118 @@ app.get('/logout', function(req, res){
 
 
 
+app.get('/product/:id',(req,res)=>{
+
+var id = req.params.id;
+
+Product.findOne({_id:id},(err,product)=>{
+
+if(req.user == undefined){
+ 
+res.render('oneproduct',{
+
+    product: product,
+    user: '',
+    cartcount: 0
+});
+}
+
+else{
+
+  if(req.session.cart == undefined){
+
+res.render('oneproduct',{
+
+    product: product,
+    user: req.user.firstname,
+    cartcount:0
+});    
+  }
+  else{
+    res.render('oneproduct',{
+
+    product: product,
+    user: req.user.firstname,
+    cartcount: req.session.cart.length
+});
+  }
+ 
+}
+
+});
+
+});
+
+
+
+
+app.get('/add-cart/:id',(req,res)=>{
+
+var newItem = true;
+
+var id = req.params.id;
+Product.findOne({_id:id},(err,product)=>{
+//console.log(product);
+console.log(req.session.cart + "cart");
+if( req.session.cart == undefined){
+   req.session.cart = [];
+
+  req.session.cart.push({
+
+    id: product._id,
+    qty:1,
+    price: parseFloat(product.price).toFixed(2),
+    image: product.image1
+  });
+
+  console.log(req.session.cart +"1");
+
+}
+else{
+
+  var cart = req.session.cart;
+
+for(var i= 0; i<cart.length;i++){
+  if(cart[i].id == product._id){
+
+    cart[i].qty++;
+    newItem = false;
+    break;
+
+  }
+}
+
+if(newItem){
+
+  cart.push({
+
+    id: product._id,
+    qty:1,
+    price: parseFloat(product.price).toFixed(2),
+    image: product.image1
+  }); 
+}
+  
+}
+  
+console.log(req.session.cart +"2");
+req.flash('info','Product added success successfully!!');
+  res.redirect('/cart');
+
+
+});
+
+console.log(req.session.cart+ "last one");
+
+});
+
 
 app.get('/cart',checkAuthenticated,(req,res)=>{
+
+console.log(typeof(JSON.stringify(req.session.cart))   +"from /cart");
+
+cart = req.session.cart;
+console.log(cart + "print cart variable");
 
 if(req.session.cart == undefined){
   req.flash('info', 'Your cart is empty');
@@ -551,13 +579,13 @@ if(req.session.cart == undefined){
   })
 }
 else{
-  console.log(req.session.cart[0]);
 res.render('cart',{
   all: req.session.cart,
   user: req.user.firstname
 });
 }
 });
+
 
 
 app.get('/add-category',checkAuthenticated,(req,res)=>{
@@ -700,9 +728,67 @@ res.redirect('/paymentsuccess');
 
 app.get('/paymentsuccess',checkAuthenticated,(req,res)=>{
   
+cart1 = req.session.cart;
+delete req.session.cart;
+
+var userid = req.user._id;
+var currentDate = new Date().toISOString().split('T')[0];
+var days = 7;
+var date = new Date();
+var result = date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+var deliveryDate = new Date(result).toISOString().split('T')[0];
+
+
+
   if(donePayment){
-    delete req.session.cart;
-  res.render('complete');
+    console.log(req.session.cart +"cart sucess");
+    req.flash('info','Order Placed Successfully!!');
+    res.render('complete',{
+    products:cart1,
+    user: req.user.firstname
+    
+  });
+
+  donePayment = false;
+  req.session.cart = undefined;
+  console.log('below session');
+
+
+  for(var i=0;i<cart1.length;i++){
+console.log("-----------------------");
+    var productid = cart1[i].id;
+    console.log(productid);
+    console.log(userid);
+    console.log(currentDate);
+    console.log(deliveryDate);
+    var qty = cart1[i].qty;
+    console.log(qty);
+    var image = cart1[i].image;
+    var pr = cart1[i].price;
+    var pr = parseInt(pr);
+    console.log(pr);
+    console.log("-----------------------");
+
+    var order = new Order({
+
+    userId: userid,
+    productId: productid,
+    image: image,
+    price: pr,
+    quantity:qty,
+    placedDate: currentDate,
+    deliveryDate: deliveryDate
+
+  });
+
+    order.save((err)=>{
+      if(err) console.log(err);
+      else{
+        console.log('Order added to database');
+      }
+    })
+  }
+
 }
   else{
     res.redirect('/');
@@ -710,47 +796,39 @@ app.get('/paymentsuccess',checkAuthenticated,(req,res)=>{
 });
 
 
+app.get('/orders',checkAuthenticated,(req,res)=>{
 
 
-app.get('/product/:id',(req,res)=>{
 
-var id = req.params.id;
 
-Product.findOne({_id:id},(err,product)=>{
+Order.find({userId: req.user._id},(err,order)=>{
 
-if(req.user == undefined){
- 
-res.render('oneproduct',{
+console.log(order);
 
-    product: product,
-    user: '',
-    cartcount: 0
+if(req.session.cart == undefined){
+
+res.render('orders',{
+
+  user: req.user.firstname,
+  orders: order,
+  cartcount: 0
+
 });
-}
 
+}
 else{
 
-  if(req.session.cart == undefined){
 
-res.render('oneproduct',{
+res.render('orders',{
 
-    product: product,
-    user: req.user.firstname,
-    cartcount:0
-});    
-  }
-  else{
-    res.render('oneproduct',{
+  user: req.user.firstname,
+  orders: order,
+  cartcount: req.session.cart.length
 
-    product: product,
-    user: req.user.firstname,
-    cartcount: req.session.cart.length
 });
-  }
- 
 }
-
 });
+
 
 });
 
