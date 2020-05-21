@@ -129,9 +129,9 @@ h6{
   <!-- Overlay content -->
   <div class="overlay-content">
     <a href="/" onclick="closeNav()">Home</a>
-    <a href="#" onclick="closeNav()">Home</a>
-    <a href="#" onclick="closeNav()">Home</a>
-    <a href="#" onclick="closeNav()">Home</a>
+    <a href="/about" onclick="closeNav()">About</a>
+    <a href="/contact" onclick="closeNav()">Contact</a>
+    <a href="/orders" onclick="closeNav()">My Orders</a>
 
             <% if(user == ''){ %>
             <a href="/login"><button class="inb">LOGIN</button></a>
@@ -153,19 +153,19 @@ h6{
         <div class="logo"><h4>LOGO</h4></div>
         <ul style="margin-bottom: 0px;">
             <a href="/" style="text-decoration: none;"><li>Home</li></a>
-            <a href="" style="text-decoration: none;"><li>Home</li></a>
-            <a href="" style="text-decoration: none;"><li>Home</li></a>
-            <a href="" style="text-decoration: none;"><li>Home</li></a>
-            <a href="" style="text-decoration: none;"><li>Home</li></a>
+            <a href="/about" style="text-decoration: none;"><li>About</li></a>
+            <a href="/contact" style="text-decoration: none;"><li>Contact</li></a>
+            <a href="/orders" style="text-decoration: none;"><li>My Orders</li></a>
+
         </ul>
         <div class="login">
            <% if(user == ''){ %>
             <a href="/login"><button>LOGIN</button></a>
             <%} else {%>
-              <p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 10px;">Hi,<%= user %></p><a href="/logout"><button>LOGOUT</button></a>
+              <a href="/userprofile" style="text-decoration: none;width: 120px;"><p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 15px;">Hi,<%= user %></p></a><a href="/logout"><button>LOGOUT</button></a>
               <%}%>
             
-            <a href="/cart" class="cart"><h5><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout"><h6 class="count" style="margin-bottom: 3px;"><%= all.length %></h6></div></a>
+            <a href="/cart" class="cart"><h5><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout"><h6 class="count" style="margin-bottom: 3px;"><%= cartcount %></h6></div></a>
         </div>
     </nav>
     

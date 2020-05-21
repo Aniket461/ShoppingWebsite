@@ -103,12 +103,36 @@ button:hover{
 	padding: 5px;
 	margin-top: 10px;
 }
+.mnavbar{
+    display: none;
+}
+
+
+@media screen and (max-width: 800px){
+
+
+nav{
+    display: none;
+}
+
+.mnavbar{
+    display: block;
+}
+
+}
+
 
 </style>
 
 </head>
-<body>
-<h1 style="text-align: center;">Add product</h1>
+<body style="padding-top: 30px;">
+
+<a href="/dashboard" style="margin-right: 20px; "><button style="width: 150px;
+height: 40px; margin-left: 85%;
+text-align: center;background-color: #041a3d;
+border:2px solid #041a3d; color: white; font-weight: 600;"><i style="font-size: 23px;" class="fa fa-arrow-left" aria-hidden="true"></i>Dashboard</button></a>
+
+<h1 style="text-align: center; margin-top: 100px;">Add Category</h1>
 
 
 <div class="err" style="width: 60%; margin-left: 20%; text-align: center;" >
@@ -131,7 +155,7 @@ button:hover{
 
 <div>
 <h5>Category Name</h5>
-<input type="text" name="category">
+<input type="text" name="category" required>
 </div>
 
 <div style="width: 100%; display: flex;justify-content: center; height: 50px;">

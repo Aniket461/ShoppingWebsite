@@ -107,8 +107,15 @@ button:hover{
 </style>
 
 </head>
-<body>
-<h1 style="text-align: center;">Add product</h1>
+<body style="padding-top: 30px;">
+
+
+<a href="/dashboard" style="margin-right: 20px; "><button style="width: 150px;
+height: 40px; margin-left: 85%;
+text-align: center;background-color: #041a3d;
+border:2px solid #041a3d; color: white; font-weight: 600;"><i style="font-size: 23px;" class="fa fa-arrow-left" aria-hidden="true"></i>Dashboard</button></a>
+
+<h1 style="text-align: center; margin-top: 50px;">Add product</h1>
 
 
 <div class="err" style="width: 60%; margin-left: 20%; text-align: center;" >
@@ -131,17 +138,17 @@ button:hover{
 
 <div>
 <h5>Title</h5>
-<input type="text" name="title">
+<input type="text" name="title" required>
 </div>
 
 <div>
 <h5>Description</h5>
-<textarea name="description" rows="8" wrap="soft" style="height: 120px;"> </textarea>
+<textarea name="description" rows="8" wrap="soft" style="height: 120px;" required> </textarea>
 </div>
 
 <div>
 <h5>Category</h5>
-<select name="category">
+<select name="category" required>
 	<% category.forEach(function(cat){ %>
 	<option name="category"><%= cat.category %></option>
 	<% }); %>
@@ -151,16 +158,16 @@ button:hover{
 <div>
 	
 <h5 >Pictures</h5>
-	<input class="pic" type="file" name="pic">
-	<input class="pic" type="file" name="pic">
-	<input class="pic" type="file" name="pic">
-	<input class="pic" type="file" name="pic">
+	<input class="pic" type="file" name="pic" required>
+	<input class="pic" type="file" name="pic" required>
+	<input class="pic" type="file" name="pic" required>
+	<input class="pic" type="file" name="pic" required>
 
 </div>
 
 <div>
 <h5 >Price</h5>
-<h6 style="float: left;margin-top: 5px;" class="pricen">$</h6><input class="price" type="number" name="price">
+<h6 style="float: left;margin-top: 5px;" class="pricen">$</h6><input class="price" type="number" name="price" required>
 </div>
 <div style="width: 100%; display: flex;justify-content: center; height: 50px;">
 <button><i class="fa fa-check-square" aria-hidden="true" style="font-size: 25px;"></i>SUBMIT</button>

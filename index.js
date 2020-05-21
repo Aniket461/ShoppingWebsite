@@ -575,13 +575,15 @@ if(req.session.cart == undefined){
   req.flash('info', 'Your cart is empty');
   res.render('cart',{
     all: '',
-    user: req.user.firstname
+    user: req.user.firstname,
+    cartcount: 0
   })
 }
 else{
 res.render('cart',{
   all: req.session.cart,
-  user: req.user.firstname
+  user: req.user.firstname,
+  cartcount: req.session.cart.length
 });
 }
 });
@@ -595,7 +597,9 @@ console.log(e == test);
 console.log(e);
 
   if(e == "surveaniket461@gmail.com"){
-  res.render('addcategory');
+  res.render('addcategory',{
+    user: req.user.firstname
+  });
 }
 else{
 
@@ -828,9 +832,170 @@ res.render('orders',{
 });
 }
 });
+});
 
+
+
+app.get('/delete-product',checkAuthenticated,(req,res)=>{
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+
+    Product.find({},(err,products)=>{
+
+      res.render('DeleteProduct',{
+    user: req.user.firstname,
+    products: products
+  });
+
+
+    });
+
+  
+}
+else{
+
+  res.redirect('/');
+}
 
 });
+
+
+app.get('/delete-category',checkAuthenticated,(req,res)=>{
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+  Category.find({},(err,categories)=>{
+
+      res.render('DeleteCategory',{
+    user: req.user.firstname,
+    categories: categories
+  });
+});
+}
+else{
+
+  res.redirect('/');
+}
+
+});
+
+
+app.get('/deleteproduct/:id',checkAuthenticated,(req,res)=>{
+
+var id = req.params.id;
+console.log(id);
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+    Product.deleteOne({_id:id},(err,obj)=>{
+      if(err){
+          
+          req.flash('info','Problem in Deleting');
+res.redirect('/delete-product');
+
+      }
+      else{
+
+req.flash('info','Product Deleted!!');
+res.redirect('/delete-product'); 
+      }
+    });
+}
+else{
+  res.redirect('/');
+}
+})
+
+
+app.get('/deletecategory/:id',checkAuthenticated,(req,res)=>{
+
+var id = req.params.id;
+console.log(id);
+var e = req.user.email;
+var test = 'surveaniket461@gmail.com';
+console.log(e == test);
+console.log(e);
+
+  if(e == "surveaniket461@gmail.com"){
+    Category.deleteOne({_id:id},(err,obj)=>{
+      if(err){
+          
+          req.flash('info','Problem in Deleting');
+res.redirect('/delete-category');
+
+      }
+      else{
+       
+req.flash('info','Category Deleted!!');
+res.redirect('/delete-category'); 
+      }
+    });
+}
+else{
+  res.redirect('/');
+}
+});
+
+
+app.get('/find/:category',(req,res)=>{
+
+var cat = req.params.category;
+
+Product.find({category:cat},(err,products)=>{
+
+
+if(req.user == undefined){
+res.render('EachCategory',{
+data : '',
+user : '',
+category: cat,
+products: products,
+cartcount: 0
+});
+}
+
+else{
+
+if(req.session.cart == undefined){
+res.render('EachCategory',{
+data : req.user.firstname,
+user : req.user.firstname,
+products: products,
+category: cat,
+cartcount: 0
+});
+}
+else{
+  res.render('EachCategory',{
+data : req.user.firstname,
+user : req.user.firstname,
+products: products,
+category: cat,
+cartcount: req.session.cart.length
+});
+}
+
+
+}
+
+});
+
+});
+
+
+
+
+
 
 
 //start the server

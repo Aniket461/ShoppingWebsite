@@ -1,4 +1,3 @@
-<!-- views/head.ejs -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +26,79 @@
     display: none;
 }
 
-table{
-	border-collapse: separate;
-  border-spacing: 45px 0; display: flex;justify-content: center;
+.products{
+  list-style: none;
+  margin-left: 0px;
+  padding: 0px;
+  padding-top: 80px;
+  display: flex;
+    flex-direction: column;
+    height: auto;
+    color: black;
+    margin-bottom: 50px;
+}
+.main{
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-decoration: none;
+  height: 70px;
+  margin-bottom: 10px;
+  color: black;
+}
+.each{
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 5px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 60px;
+  padding-top: 16px;
+
+}
+.each p{
+  width: 30%;
+  padding-left: 5%;
+}
+
+.deleteBut{
+  width: 120px;
+  height: 40px;
+  margin-top: -10px;
+  background-color: white;
+  color: black;
+  border: 2px solid red;
+  font-weight: 600;
+}
+.deleteBut:hover{
+  background-color: red;
+  color: black;
+}
+
+
+.viewBut{
+  width: 120px;
+  height: 40px;
+  margin-top: -10px;
+  background-color: white;
+  color: black;
+  border: 2px solid #051d42
+;
+  font-weight: 600;
+}
+.viewBut:hover{
+  background-color: #051d42
+;
+  color: white;
+}
+
+
+.each p{
+  font-weight: 600;
+  color: black;
+  margin: 0px;
 }
 
 @media screen and (max-width: 800px){
@@ -43,38 +112,9 @@ nav{
     display: block;
 }
 
-table{
-	  border-spacing: 0px 0;
-	  padding-left: 10px;
-	  padding-right: 10px;
 }
 
-}
 
-input{
-	width: 100%;
-	border:2px solid #9ea0a3;
-	height: 35px;font-size: 15px;
-    font-weight: 500;
-}
-
-button{
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid black;
-    width: 110px;
-    height: 35px;
-    font-size: 18px;
-    font-weight: 600;
-    background-color: white;
-}
-
-button:hover{
-
-	background-color: black;
-	color: white;
-}
 
 </style>
 
@@ -98,7 +138,7 @@ button:hover{
     <a href="/" onclick="closeNav()">Home</a>
     <a href="/about" onclick="closeNav()">About</a>
     <a href="/contact" onclick="closeNav()">Contact</a>
-    <a href="/orders" onclick="closeNav()">My Orders</a>
+    <a href="/dashboard" onclick="closeNav()">Dashboard</a>
 
             <% if(user == ''){ %>
             <a href="/login"><button class="inb">LOGIN</button></a>
@@ -122,8 +162,7 @@ button:hover{
             <a href="/" style="text-decoration: none;"><li>Home</li></a>
             <a href="/about" style="text-decoration: none;"><li>About</li></a>
             <a href="/contact" style="text-decoration: none;"><li>Contact</li></a>
-            <a href="/orders" style="text-decoration: none;"><li>My Orders</li></a>
-
+            <a href="/dashboard" style="text-decoration: none;"><li>Dashboard</li></a>
         </ul>
         <div class="login">
            <% if(user == ''){ %>
@@ -132,83 +171,63 @@ button:hover{
               <a href="/userprofile" style="text-decoration: none;width: 120px;"><p style="color: white; margin-top: 13px;font-size: 20px; font-weight: 500; margin-right: 15px;">Hi,<%= user %></p></a><a href="/logout"><button>LOGOUT</button></a>
               <%}%>
             
-                    </div>
+        </div>
     </nav>
 
 
-<div class="userprofile" style="padding-top: 50px;">
-<h2 style="text-align: center; font-size: 22px; color:#545557;margin-bottom: 20px;">Hi,<%=user %>.. You can update your profile here!</h2>
-	
+  <div class="err" style="width: 70%;margin-left: 15%; margin-top: 30px; text-align: center;">
+<% if(messages.error || messages.info) { %>
+
+<% if(messages.error) {%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong><%= messages.error %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+<% if(messages.info) {%>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong><%= messages.info %> </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
 
 
-	<div class="userimage"></div>
-
-	<div class="info">
-		
-		<form action="/userprofile" method="POST">
-		<table class="table table-borderless" style="">
-			<tr>
-			<th style="padding-bottom: 0px;">First Name</th>
-			<th style="padding-bottom: 0px;">Last Name</th>
-		</tr>
-		<tr>
-			<th style="padding-top: 0px;"><input type="text" name="firstname" value="<%= complete.firstname%>" required></th>
-			<th style="padding-top: 0px;"><input type="text" name="lastname" value="<%= complete.lastname%>" required></th>
-		</tr>
-		<tr>
-			<th style="padding-bottom: 0px;">Email</th>
-			<th style="padding-bottom: 0px;">Phone no</th>
-		</tr>
-		<tr>
-			<th style="padding-top: 0px;"><input type="email" name="email" value="<%= complete.email%>" required></th>
-			<th style="padding-top: 0px;"><input type="tel" pattern="^[789][0-9]{9}" name="mobile" required value="<%= complete.mobile%>" oninvalid="this.setCustomValidity('Please Enter mobile number in proper format!!')"
- oninput="setCustomValidity('')" required/></th>
-		</tr>
-
-		<tr>
-			<th style="padding-bottom: 0px;">Address Line1</th>
-			<th style="padding-bottom: 0px;">Address Line2</th>
-		</tr>
-		<tr>
-			<th style="padding-top: 0px;"><input type="text" name="address1" value="<%= complete.address1%>" required></th>
-			<th style="padding-top: 0px;"><input type="text" name="address2" value="<%= complete.address2%>" required></th>
-		</tr>
-
-		<tr>
-			<th style="padding-bottom: 0px;">District</th>
-			<th style="padding-bottom: 0px;">State</th>
-			
-		</tr>
-		<tr>
-			<th style="padding-top: 0px;"><input type="text" name="district" value="<%= complete.district%>" required></th>
-			<th style="padding-top: 0px;"><input type="text" name="state" value="<%= complete.state%>" required></th>
-			
-
-		</tr>
-		<tr><th style="padding-bottom: 0px;">Pincode</th></tr>
-		<tr><th style="padding-top: 0px;"><input type="text" value="<%= complete.pincode%>" name="pincode" pattern="[0-9]{6}" oninvalid="this.setCustomValidity('Pincode should be of 6 digits!!')"
- oninput="setCustomValidity('')" required/></th></tr>
-
-		</table>
-
-
-<button style="display: flex;
-    justify-content: center;" type="submit" class="sub" id="myb" ><i style="font-size: 25px; margin-top: 0px;
-    margin-right: 3px;" class="fa fa-check-circle-o" aria-hidden="true"></i>Update</button>
-
-		</form>
-	</div>
-
+<% } %>
 </div>
 
 
+    <ul class="products">
+      <a href=""  class="main" style="text-decoration: none;">
+        <li class="each">
+        <h5 style="width: 30%; padding-left: 5%;">Product Id</h5>
+        <h5 style="width: 30%;padding-left: 5%;">Product Name</h5>
+        <h5 style="width: 30%;padding-left: 5%;">Action</h5>
+      </li></a>
+
+      <% products.forEach(function(product){ %>
 
 
-</body>
+        <li style="width: 80% ;margin-left:10%; margin-right: 10%; margin-bottom: 10px;   border: 2px solid black; height: 70px; display: flex; justify-content: space-around; padding-top: 20px; border-radius: 10px;">
+          <p style="width: 30%; padding-left: 5%; font-weight: 600;"><%= product._id%></p>
+          <p style="width: 30%;padding-left: 10%;font-weight: 600;"><%= product.title %></p>
+          <p style="width: 40%;padding-left: 5%;font-weight: 600;">
+            <a href="/deleteproduct/<%= product._id %>"><button class="deleteBut"><i style="margin-right: 3px;" class="fa fa-trash" aria-hidden="true"></i>Delete</button></a>
+            <a href="/product/<%= product._id %>"><button class="viewBut">View Product</button></a>
+          </p>
+        </li>
+   
+   <% }) %>   
+    </ul>
+
+
+  </body>
+
 
 <script>
-
-
 /* Open when someone clicks on the span element */
 function openNav() {
   document.getElementById("myNav").style.width = "100%";
@@ -220,7 +239,6 @@ function closeNav() {
   document.getElementById("myNav").style.width = "0%";
   document.getElementById("ham").style.visibility = 'visible';
 }
-
 </script>
 
-</html>
+  </html>

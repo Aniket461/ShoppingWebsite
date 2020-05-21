@@ -90,7 +90,7 @@ nav{
             <a href="/about" style="text-decoration: none;"><li>About</li></a>
             <a href="/contact" style="text-decoration: none;"><li>Contact</li></a>
             <a href="/orders" style="text-decoration: none;"><li>My Orders</li></a>
-            <a href="" style="text-decoration: none;"><li>Home</li></a>
+
         </ul>
         <div class="login">
            <% if(user == ''){ %>
@@ -124,17 +124,17 @@ nav{
   <h4 style="text-align: center;margin-top: 10px;">Categories</h4>
   <ul class="u">
     <% category.forEach(function(cat){ %>
-    <li style="height: 30px;"><%= cat.category%></li>
+    <li style="height: 30px;"><a style="text-decoration: none;" href="/find/<%= cat.category %>"><%= cat.category%></a></li>
     <% });%>
   </ul>
 </div>
 
 
-<select class="sel" name="category" style="margin-left: 20px;
+<select class="sel" name="category" id="sel" onchange="find();" style="margin-left: 20px;
     margin-bottom: 20px;
     border: 2px solid;">
   <% category.forEach(function(cat){ %>
-  <option name="category"><%= cat.category %></option>
+  <option name="category" value="<%= cat.category %>"><%= cat.category %></option>
   <% }); %>
 </select>  
 
@@ -165,6 +165,16 @@ nav{
 </div>
 
 </body>
+
+<script type="text/javascript">
+  
+function find(){
+
+  var category= document.getElementById('sel').value;
+  window.location.href = "/find/"+category;
+}
+
+</script>
 
 <script>
 
