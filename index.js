@@ -183,6 +183,70 @@ console.log(req.user);
 
 });
 
+
+app.get('/about',(req,res)=>{
+
+
+  if(req.user == undefined){
+res.render('about',{
+data : '',
+user : '',
+cartcount: 0
+});
+}
+
+else{
+
+if(req.session.cart == undefined){
+res.render('about',{
+data : req.user.firstname,
+user : req.user.firstname,
+cartcount: 0
+});
+}
+else{
+  res.render('about',{
+data : req.user.firstname,
+user : req.user.firstname,
+cartcount: req.session.cart.length
+});
+}
+}
+});
+
+
+app.get('/contact',(req,res)=>{
+
+
+  if(req.user == undefined){
+res.render('contact',{
+data : '',
+user : '',
+cartcount: 0
+});
+}
+
+else{
+
+if(req.session.cart == undefined){
+res.render('contact',{
+data : req.user.firstname,
+user : req.user.firstname,
+cartcount: 0
+});
+}
+else{
+  res.render('contact',{
+data : req.user.firstname,
+user : req.user.firstname,
+cartcount: req.session.cart.length
+});
+}
+}
+});
+
+
+
 app.get('/login',checkNotAuthenticated,(req,res)=>{
 
 res.render('login');

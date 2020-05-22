@@ -11,7 +11,7 @@
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>  
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -115,61 +115,19 @@ nav{
 </div>
  -->
 
- <div class="mobilecart">
-  <a href="/cart" class="cart" style="color: black;"><h5 style="float: left;font-size: 25px;"><i style="font-size: 35px;" class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</h5><div class="countout" style="width: 22px;height: 22px; border: 2px solid black;border-radius: 50%; text-align: center; font-weight: 600;"><%= cartcount %></div></a>
-</div>
-
-<div class="products" style="padding-top: 75px;">
-<div class="category">
-  <h4 style="text-align: center;margin-top: 10px;">Category</h4>
-  <ul class="u" style="height: 60px;">
-   
-    <li style="height: 30px;"><a style="text-decoration: none;" href="/find/<%= category %>"><%= category %></a></li>
-  </ul>
-</div>
-
-
-<select class="sel" name="category" style="margin-left: 20px;
-    margin-bottom: 20px;
-    border: 2px solid;">
-  <option name="category"><%= category %></option>
-</select>  
-
-
-
-  <div class="outer">
-    <% if(products == ''){ %>
-
-    <h3 style="text-align: center;">No products for this category yet!!</h3>
-    <h5 style="text-align: center;">We will be adding products soon....</h5>
-
-    <%} else{%>
-  <% products.forEach(function(product){ %>
-  <div class="prod"><a style="text-decoration: none;color: black;" href="../product/<%=product.id %>">
-    <img src="../uploads/<%= product.image1 %>" alt="image1" width="270px" height="270px">
-
-    <h3><%= product.title %></h3>
-    <div class="inner">
-    <label style="float: left;">Category:</label><h5><%= product.category %></h5>
-    </div>
-    <div class="inner">
-    <label style="float: left;">Price:</label><h5 style=""><i class="fa fa-inr"  aria-hidden="true"></i><%= product.price %></h5></div>
-    <% if(user == ''){ %>
-    <a href=""><button disabled><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to Cart</button></a>
-    <p style="font-size: 10px;">login to add product to cart</p>
-    <% }else{ %>
-    <a href="/add-cart/<%= product._id %>"><button ><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to Cart</button></a>
-    <% } %>
-  </a>
-    </div>
-<% });%>
-
-<% } %>
-</div>
-   
-</div>
+<h1>Contact Page</h1>
 
 </body>
+
+<script type="text/javascript">
+  
+function find(){
+
+  var category= document.getElementById('sel').value;
+  window.location.href = "/find/"+category;
+}
+
+</script>
 
 <script>
 
